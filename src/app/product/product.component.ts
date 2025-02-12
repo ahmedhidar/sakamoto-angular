@@ -1,16 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CounterService } from './../counter.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './product.component.html',
 })
-export class ProductComponent {
-
+export class ProductComponent implements OnInit {
   @Input() product: any; // Receive product data from parent
-  constructor(private router: Router) {};
+  cartCount: number = 0;
+
+  constructor(
+    private router: Router,
+    private cartService: CartService,
+    private counterService: CounterService
+  ) {}
+
+  ngOnInit() {
+    // ✅ Listen to cart updates and update count
+    this.cartService.getCart().subscribe((cart) => {
+      this.cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    });
+  }
+
+  addToCart(product: any) {
+    this.cartService.addToCart(product);
+  }
+
   getStars(rating: number): string[] {
     const fullStars = Math.floor(rating); // Number of full stars
     const hasHalfStar = rating % 1 >= 0.5; // Check if there's a half star
@@ -36,7 +56,7 @@ export class ProductComponent {
     return starsArray;
   }
 
-  handleRedirectToDetails(id:number){
-this.router.navigate(['/product-page',id]);
-}
+  handleRedirectToDetails(id: number) {
+    this.router.navigate(['/product-page', id]);
+  }
 }

@@ -3,7 +3,7 @@
   <div class="collapse navbar-collapse container justify-content-between" id="navbarSupportedContent">
     <div class="">
 <img src="./bw_image.jpg" width="60px">
-      <a class="navbar-brand text-warning" href="#">Sakamoto </a>
+      <a class="navbar-brand text-warning" routerLink="/" >Sakamoto </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -16,8 +16,13 @@
         <a class="nav-link" routerLink="/login" routerLinkActive="text-warning">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/cart" routerLinkActive="text-warning">
-          Cart <i class="fa-solid fa-cart-shopping"></i>
+        <a class="nav-link position-relative" routerLink="/cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark"
+          >
+          {{ getTotalItems() }}
+          </span>
         </a>
       </li>
     </ul>

@@ -1,1 +1,46 @@
-<p>cart works!</p>
+<div class="container mt-5">
+  <h3 class="text-center mb-4">Shopping Cart</h3>
+
+  <table class="table table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Image</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Remove</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cart">
+        <td>
+          <img [src]="item.thumbnail" width="50" class="img-thumbnail" alt="Product Image">
+        </td>
+        <td>{{ item.title }}</td>
+        <td class="d-flex align-items-center justify-content-center">
+          <button class="btn btn-sm btn-outline-secondary" (click)="decrementQuantity(item)">-</button>
+          <input
+            type="number"
+            [(ngModel)]="item.quantity"
+            min="1"
+            class="form-control mx-2 text-center"
+            style="width: 60px;"
+            readonly
+          />
+          <button class="btn btn-sm btn-outline-primary" (click)="incrementQuantity(item)">+</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="removeFromCart(item)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+        <td>${{ (item.price * item.quantity) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between mt-4">
+    <h4>Total Items: <span class="fw-bold">{{ getTotalItems() }}</span></h4>
+    <h4>Total Price: <span class="fw-bold text-success">${{ getTotalPrice()}}</span></h4>
+  </div>
+</div>
