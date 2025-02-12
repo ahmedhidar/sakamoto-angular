@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <button class="btn btn-dark btn-sm d-inline px-4 fw-bold mb-3" (click)="goBack()">Back</button>
+  <div class="row">
+
+    <!-- Product Image -->
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm">
+              <img [src]="productData.thumbnail" class="img-fluid w-75" alt="{{productData.title }}">
+          </div>
+      </div>
+
+      <!-- Product Details -->
+      <div class="col-md-6">
+          <h2 class="fw-bold">{{ productData.title }}</h2>
+          <p class="text-muted">{{ productData.description }}</p>
+
+          <!-- Rating -->
+          <div class="d-flex align-items-center text-warning">
+              <ng-container *ngFor="let star of getStars(productData.rating)">
+                  <i class="fa" [ngClass]="{
+                      'fa-star': star === 'full',
+                      'fa-star-half-alt': star === 'half',
+                      'fa-star-o': star === 'empty'
+                  }"></i>
+              </ng-container>
+          </div>
+
+          <!-- Price -->
+          <h4 class="my-4">${{ productData.price | sale:productData.discountPercentage}}</h4>
+          <p class="text-success fw-bold" *ngIf="productData.inStock">In stock</p>
+          <p class="text-danger fw-bold" *ngIf="!productData.inStock">Out of stock</p>
+
+          <!-- Category & Brand -->
+          <div class="my-4">
+              <button class="btn btn-outline-secondary bg-light text-danger btn-sm me-2">{{ productData.category }}</button>
+              <button class="btn btn-outline-secondary text-primary btn-sm">{{ productData.brand }}</button>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="d-flex align-items-center my-3">
+              <button class="btn btn-outline-secondary" (click)="decreaseQuantity()">-</button>
+              <input type="text" class="form-control text-center mx-2" style="width: 50px;" [(ngModel)]="quantity" readonly>
+              <button class="btn btn-outline-secondary" (click)="increaseQuantity()">+</button>
+          </div>
+
+          <!-- Buttons -->
+          <div class="my-4">
+              <button class="btn btn-success px-4 me-2">Buy Now</button>
+              <button class="btn btn-outline-primary ms-4 px-4">Add to Cart<i class="fa-solid fa-cart-shopping"></i></button>
+          </div>
+      </div>
+  </div>
+</div>

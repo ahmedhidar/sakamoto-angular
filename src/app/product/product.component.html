@@ -1,0 +1,20 @@
+
+  <div class="card-body text-center">
+    <img src="{{ product.thumbnail }}" class="rounded-circle border mb-3" alt="Product Image" width="200">
+    <h5 class="card-title fw-bold">{{ product.title }}</h5>
+    <p class="text-muted">Price: ${{ product.price }}</p>
+    <div class="text-warning">
+      <ng-container *ngFor="let star of getStars(product.rating); let i = index">
+        <i class="fa" [ngClass]="{
+          'fa-star': star === 'full',
+          'fa-star-half-alt': star === 'half',
+          'fa-star-o': star === 'empty'
+        }"></i>
+      </ng-container>
+    </div>
+<button class="btn btn-outline-success my-4 fw-bolder">add</button>
+<button class="btn btn-outline-primary my-4 fw-bolder ms-5" (click)="handleRedirectToDetails(product.id)">view</button>
+  </div>
+
+
+

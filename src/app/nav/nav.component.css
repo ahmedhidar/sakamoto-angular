@@ -1,0 +1,17 @@
+
+.navbar-nav .nav-item .nav-link.active {
+  color: yellow !important;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: yellow !important;
+}
+.navbar-nav .nav-item.active .nav-link {
+  color: yellow !important;
+  font-weight: bold;
+}
+.navbar-brand{
+  font-family:"Ink Free";
+font-size: 24px;
+font-weight: 600;
+}
