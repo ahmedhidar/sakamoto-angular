@@ -1,18 +1,30 @@
 import { Component } from '@angular/core';
-import productsData from '../../../public/products.json';
-import { ProductComponent } from '../product/product.component';
-import { CommonModule } from '@angular/common';
+import { ProductRequestsService } from './../services/product-requests.service';
 import { Product } from '../types/product';
+import { CommonModule } from '@angular/common';
+import { ProductComponent } from '../product/product.component';
 
 @Component({
   selector: 'app-product-list',
-imports:[ProductComponent,CommonModule],
+imports:[CommonModule, ProductComponent],
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent {
-  products: Array<Product> =[... productsData.products];
+  products: Product[] = [];
 
-  trackById(index: number, product: any): number {
+  constructor(private productRequestsService: ProductRequestsService) {}
+
+  ngOnInit() {
+    this.productRequestsService.getProductsRequests().subscribe((res) => {
+      this.products = res.products; // Correctly accessing the "products" key
+    });
+  }
+
+  removeProduct(productId: number) {
+    this.products = this.products.filter((product) => product.id !== productId);
+  }
+
+  trackById(index: number, product: Product): number {
     return product.id;
   }
 }
