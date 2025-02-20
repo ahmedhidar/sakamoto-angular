@@ -40,13 +40,13 @@ export class CartComponent implements OnInit {
     this.updateCart();
   }
 
-  getTotalItems(): number {
-    return this.cart.reduce((sum, item) => sum + item.quantity, 0);
-  }
+getTotalItems(): number {
+  return this.cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+}
 
-  getTotalPrice(): number {
-    return this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }
+getTotalPrice(): number {
+  return this.cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity) || 0), 0);
+}
 
   updateCart() {
     this.cartService.updateCart(this.cart); // Sync with cart service
