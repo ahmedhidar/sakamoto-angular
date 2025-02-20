@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  private cart = new BehaviorSubject<any[]>(this.loadCart()); // ✅ Load cart from localStorage
+  private cart = new BehaviorSubject<any[]>(this.loadCart()); 
   cart$ = this.cart.asObservable();
 
   constructor() {}
@@ -15,24 +15,41 @@ export class CartService {
   }
 
   addToCart(product: any) {
-    let currentCart = this.cart.value;
+    let currentCart = this.cart.value.map(item => ({
+      ...item,
+      quantity: Number(item.quantity), 
+      price: Number(item.price),
+    }));
+
     const existingProduct = currentCart.find((item) => item.id === product.id);
 
     if (existingProduct) {
-      existingProduct.quantity += product.quantity; // ✅ Increase quantity if product exists
+      existingProduct.quantity += Number(product.quantity); 
     } else {
-      currentCart.push(product);
+      currentCart.push({ ...product, quantity: Number(product.quantity), price: Number(product.price) });
     }
 
-    this.updateCart(currentCart); // ✅ Use correct variable
+    this.updateCart(currentCart);
   }
 
   private loadCart(): any[] {
-    return JSON.parse(localStorage.getItem('cart') || '[]'); // ✅ Load from localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (!savedCart) return []; 
+    try {
+      const parsedCart = JSON.parse(savedCart);
+      return Array.isArray(parsedCart) ? parsedCart.map(item => ({
+        ...item,
+        quantity: Number(item.quantity), 
+        price: Number(item.price),
+      })) : [];
+    } catch (error) {
+      console.error('Error parsing cart:', error);
+      return [];
+    }
   }
 
   updateCart(cart: any[]) {
-    localStorage.setItem('cart', JSON.stringify(cart)); // ✅ Save to localStorage
-    this.cart.next(cart); // ✅ Notify subscribers
+    localStorage.setItem('cart', JSON.stringify(cart)); 
+    this.cart.next(cart);
   }
 }
