@@ -27,9 +27,15 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addToCart(product: any) {
-    this.cartService.addToCart(product);
-  }
+addToCart(product: any) {
+  const productToAdd = {
+    ...product,
+    quantity: 1, // تأكد من وجود الكمية الافتراضية
+    price: Number(product.price) > 0 ? Number(product.price) : 0, // التأكد من أن السعر موجود وصحيح
+  };
+
+  this.cartService.addToCart(productToAdd);
+}
 
   getStars(rating: number): string[] {
     const fullStars = Math.floor(rating); // Number of full stars
