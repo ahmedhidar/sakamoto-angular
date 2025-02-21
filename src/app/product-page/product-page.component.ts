@@ -37,17 +37,14 @@ export class ProductPageComponent {
         this.cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   })
   }
-  
-addToCart(product: any) {
-  const productToAdd = {
-    ...product,
-    quantity: this.quantity, // الكمية المختارة
-    price: Number(product.price) > 0 ? Number(product.price) : 0, // تأكد من أن السعر متاح وصحيح
-  };
+  addToCart(product: any) {
+    const productToAdd = {
+      ...product,
+      quantity: this.quantity, // ✅ Add the selected quantity
+    };
 
-  this.cartService.addToCart(productToAdd);
-}
-
+    this.cartService.addToCart(productToAdd);
+  }
 
   fetchProduct(productId: string) {
     this.productService.getProductsRequests(productId).subscribe(
